@@ -8,139 +8,103 @@ export default function Gallery() {
 
   const albums = [
     { id: 1, title: "Notebooks", type: "SINGLE • 2025", img: "/images/Notebooks.jpg" },
-    { id: 2, title: "Old Ballet", type: "SINGLE • 2023", img: "/images/Old Ballet.jpg" },
-    { id: 3, title: "Blind date with summer", type: "SINGLE • 2022", img: "/images/Blind date with summer.jpg" },
-    { id: 4, title: "Hunting Time", type: "SINGLE • 2022", img: "/images/Hunting Time.jpg" },
-    { id: 5, title: "Esse vento", type: "SINGLE • 2021", img: "/images/Esse vento.jpg" },
-    { id: 6, title: "Running away for a while", type: "SINGLE • 2021", img: "/images/Running away for a while.jpg" },
+    { id: 2, title: "Old Ballet", type: "SINGLE • 2023", img: "/images/Old%20Ballet.jpg" },
+    { id: 3, title: "Blind date with summer", type: "SINGLE • 2022", img: "/images/Blind%20date%20with%20summer.jpg" },
+    { id: 4, title: "Hunting Time", type: "SINGLE • 2022", img: "/images/Hunting%20Time.jpg" },
+    { id: 5, title: "Esse vento", type: "SINGLE • 2021", img: "/images/Esse%20vento.jpg" },
+    { id: 6, title: "Running away for a while", type: "SINGLE • 2021", img: "/images/Running%20away%20for%20a%20while.jpg" },
   ];
 
   return (
     <section id="galeria" style={{
-      padding: '120px 24px',
+      padding: '80px 20px',
       backgroundColor: '#ffffff',
       width: '100%',
-      boxSizing: 'border-box',
-      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
+      boxSizing: 'border-box'
     }}>
       <style>{`
         .album-grid {
           display: grid;
           grid-template-columns: 1fr;
-          gap: 48px 32px;
+          gap: 40px 24px;
           max-width: 1200px;
           margin: 0 auto;
         }
-        @media (min-width: 640px) {
+        @media (min-width: 768px) {
           .album-grid { grid-template-columns: 1fr 1fr; }
         }
         @media (min-width: 1024px) {
           .album-grid { grid-template-columns: 1fr 1fr 1fr; }
         }
-        .album-title-text {
-          font-size: 26px;
+        .album-card-img-wrap {
+          width: 100%;
+          position: relative;
+          padding-top: 100%;
+          overflow: hidden;
+          background-color: #f7f7f7;
+          border: 1px solid #eaeaea;
+        }
+        .album-card-img {
+          position: absolute;
+          top: 0; left: 0; width: 100%; height: 100%;
+          background-size: cover;
+          background-position: center;
+          transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .album-card-img-wrap:hover .album-card-img {
+          transform: scale(1.05);
+        }
+        .album-meta-title {
+          font-family: "Arial Black", "Impact", sans-serif;
+          font-size: 24px;
           font-weight: 900;
           color: #1A2639;
-          margin: 20px 0 6px 0;
           text-transform: uppercase;
+          margin: 16px 0 4px 0;
           letter-spacing: -1px;
-          line-height: 1.1;
-          font-family: "Arial Black", "Impact", sans-serif;
+          line-height: 1.2;
         }
       `}</style>
 
-      {/* TITULO PRINCIPAL ALINEADO EXPENDED */}
-      <div style={{ maxWidth: '1200px', margin: '0 auto 60px auto', textAlign: 'left' }}>
-        <span style={{ fontSize: '11px', fontWeight: 800, color: '#FF1493', letterSpacing: '3px', textTransform: 'uppercase' }}>
-          ALL SINGLES
-        </span>
-        <h2 style={{
-          fontSize: '56px',
-          fontWeight: 900,
-          color: '#1A2639',
-          margin: '8px 0 0 0',
-          fontFamily: '"Arial Black", sans-serif',
-          letterSpacing: '-2px',
-          textTransform: 'uppercase'
-        }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto 40px auto' }}>
+        <span style={{ fontSize: '11px', fontWeight: 800, color: '#FF1493', letterSpacing: '2px' }}>ALL SINGLES</span>
+        <h2 style={{ fontSize: '42px', fontWeight: 900, color: '#1A2639', margin: '5px 0 0 0', fontFamily: '"Arial Black", sans-serif' }}>
           MUSIC <span style={{ color: '#87CEEB' }}>ALBUMS</span>
         </h2>
       </div>
 
-      {/* CUADRÍCULA ESTILO CLON PREMIUM */}
       <div className="album-grid">
         {albums.map((album, index) => (
           <div key={album.id} style={{ display: 'flex', flexDirection: 'column' }}>
-            
-            {/* CONTENEDOR DE LA IMAGEN (CUADRADA PERFECTA 1:1) */}
             <a 
-              href={spotifyUrl}
-              target="_blank"
+              href={spotifyUrl} 
+              target="_blank" 
               rel="noopener noreferrer"
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
-              style={{
-                width: '100%',
-                paddingTop: '100%', /* Truco para forzar aspecto 1:1 simétrico */
-                backgroundColor: '#FFF0F5',
-                borderRadius: '0px', /* SingerX usa esquinas totalmente rectas y limpias */
-                overflow: 'hidden',
-                position: 'relative',
-                cursor: 'pointer',
-                border: '1px solid #FFD1DC',
-                boxShadow: hoveredIndex === index ? '0 20px 40px rgba(255,20,147,0.15)' : '0 10px 30px rgba(0,0,0,0.03)',
-                transition: 'box-shadow 0.4s ease',
-                display: 'block'
-              }}
+              className="album-card-img-wrap"
             >
-              {/* Imagen que escala en Hover */}
-              <div style={{
-                position: 'absolute',
-                top: 0, right: 0, bottom: 0, left: 0,
-                backgroundImage: `url(${album.img})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                transform: hoveredIndex === index ? 'scale(1.06)' : 'scale(1)',
-                transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)'
-              }} />
-
-              {/* Capa de color translúcida degradada */}
+              <div 
+                className="album-card-img" 
+                style={{ backgroundImage: `url(${album.img})` }} 
+              />
+              
               <div style={{
                 position: 'absolute',
                 top: 0, left: 0, width: '100%', height: '100%',
-                background: 'linear-gradient(135deg, rgba(135,206,235,0.9) 0%, rgba(255,20,147,0.9) 100%)',
+                backgroundColor: 'rgba(26, 38, 57, 0.2)',
                 opacity: hoveredIndex === index ? 1 : 0,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                transition: 'opacity 0.3s ease'
+                transition: 'opacity 0.3s ease',
+                display: 'flex', alignItems: 'center', justifyContent: 'center'
               }}>
-                <span style={{
-                  backgroundColor: '#ffffff',
-                  color: '#1A2639',
-                  padding: '14px 28px',
-                  borderRadius: '50px',
-                  fontWeight: 'bold',
-                  fontSize: '11px',
-                  textTransform: 'uppercase',
-                  letterSpacing: '1px',
-                  boxShadow: '0 8px 20px rgba(0,0,0,0.2)',
-                  transform: hoveredIndex === index ? 'translateY(0)' : 'translateY(20px)',
-                  transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
-                }}>
-                  LISTEN ON SPOTIFY 🎧
+                <span style={{ backgroundColor: '#fff', color: '#1a2639', padding: '10px 20px', borderRadius: '50px', fontSize: '11px', fontWeight: 'bold' }}>
+                  LISTEN NOW 🎧
                 </span>
               </div>
             </a>
-
-            {/* CONTENIDOS DE TEXTO INFERIORES */}
-            <h3 className="album-title-text">
-              {album.title}
-            </h3>
-            <span style={{ fontSize: '12px', fontWeight: 700, color: '#FF1493', letterSpacing: '1px' }}>
-              {album.type}
-            </span>
-
+            
+            <h3 className="album-meta-title">{album.title}</h3>
+            <span style={{ fontSize: '11px', fontWeight: 700, color: '#FF1493', letterSpacing: '1px' }}>{album.type}</span>
           </div>
         ))}
       </div>
