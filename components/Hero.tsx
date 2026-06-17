@@ -14,17 +14,15 @@ export default function Hero() {
       alignItems: 'center',
       background: 'linear-gradient(135deg, #BFEFFF 0%, #FFF0F5 45%, #FFB6C1 100%)',
       padding: '120px 24px 80px 24px',
-      /* CAMBIADO AQUÍ PARA PERMITIR EL SCROLL DOWN BELLOW */
-      overflow: 'visible', 
+      overflow: 'visible',
       boxSizing: 'border-box'
     }}>
-      {/* Inyección de estilos CSS nativos para manejar el diseño móvil (Responsivo) */}
       <style>{`
         .hero-grid {
           display: grid;
           grid-template-columns: 1fr;
           gap: 40px;
-          width: '100%';
+          width: 100%;
           max-width: 1300px;
           margin: 0 auto;
           position: relative;
@@ -48,7 +46,6 @@ export default function Hero() {
           display: none;
         }
 
-        /* Cambios automáticos cuando la pantalla es grande (Ordenador) */
         @media (min-width: 1024px) {
           .hero-grid {
             grid-template-columns: 1.2fr 0.8fr;
@@ -70,7 +67,7 @@ export default function Hero() {
 
       <div className="hero-grid">
         
-        {/* TEXTO IZQUIERDO (O ARRIBA EN MÓVIL) */}
+        {/* TEXTO IZQUIERDO */}
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
           <span style={{ fontSize: '11px', fontWeight: 800, color: '#FF1493', marginBottom: '12px', letterSpacing: '3px' }}>
             CANTANTE Y EXBAILARINA ESPAÑOLA
@@ -83,7 +80,7 @@ export default function Hero() {
             Experience the soulful melodies and heartfelt lyrics of Paulina Milá, where every note tells a story, perfectly blending her classical dance training with a brilliant vocal performance.
           </p>
 
-          {/* BOTONES ADAPTADORES */}
+          {/* BOTONES */}
           <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
             <a 
               href="#videos" 
@@ -107,7 +104,7 @@ export default function Hero() {
                 transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
               }}
             >
-              <span style={{ backgroundColor: '#ffffff', color: '#FF1493', width: '20px', height: '20px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyCentert: 'center', fontSize: '9px' }}>▶</span>
+              <span style={{ backgroundColor: '#ffffff', color: '#FF1493', width: '20px', height: '20px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '9px' }}>▶</span>
               LISTEN OUR MUSIC
             </a>
 
@@ -139,10 +136,20 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* CONTENEDOR FOTO DERECHA (O ABAJO EN MÓVIL) */}
+        {/* CONTENEDOR FOTO DERECHA */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <div className="hero-image-container" style={{
-            backgroundColor: 'rgba(255,255,255,0.5)', backdropFilter: 'blur(10px)', borderRadius: '24px', border: '4px solid #ffffff', boxShadow: '0 20px 40px rgba(0,0,0,0.04)', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '24px', textAlign: 'center', justifyContent: 'center'
+            backgroundColor: 'rgba(255,255,255,0.5)', 
+            backdropFilter: 'blur(10px)', 
+            borderRadius: '24px', 
+            border: '4px solid #ffffff', 
+            boxShadow: '0 20px 40px rgba(0,0,0,0.04)', 
+            display: 'flex', 
+            flexDirection: 'column', 
+            alignItems: 'center', 
+            padding: '24px', 
+            textAlign: 'center', 
+            justifyContent: 'center'
           }}>
             <div style={{ fontSize: '40px', marginBottom: '10px' }}>👩‍🎤</div>
             <h3 style={{ margin: '0', fontSize: '18px', fontWeight: 800, color: '#1A2639' }}>FOTO DE PAULINA (PNG)</h3>
@@ -151,7 +158,7 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* REDES SOCIALES (SE OCULTAN EN MÓVIL AUTOMÁTICAMENTE) */}
+      {/* REDES SOCIALES */}
       <div className="social-sidebar" style={{
         position: 'absolute', right: '25px', top: '50%', transform: 'translateY(-50%)', flexDirection: 'column', gap: '20px', backgroundColor: 'rgba(255,255,255,0.85)', padding: '20px 12px', borderRadius: '50px', border: '1px solid #FFD1DC', boxShadow: '0 4px 20px rgba(0,0,0,0.05)', zIndex: 90
       }}>
