@@ -167,6 +167,7 @@ export default function Hero() {
               fill
               style={{ objectFit: 'cover' }}
               priority
+              sizes="(max-width: 768px) 100vw, 35vw"
             />
           </div>
           {/* Badge */}

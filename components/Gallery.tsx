@@ -7,7 +7,7 @@ const albums = [
   { title: 'Old Ballet',             year: 2023, img: '/images/ballet.jpg' },
   { title: 'Blind Date with Summer', year: 2022, img: '/images/blind.jpg' },
   { title: 'Hunting Time',           year: 2022, img: '/images/hunting.jpg' },
-  { title: 'Esse Vento',             year: 2021, img: '/images/esse.jpg' },
+  { title: 'Esse Vento',             year: 2021, img: '/images/vento.jpg' },
   { title: 'Running Away for a While',year: 2021, img: '/images/running.jpg' },
 ]
 

@@ -59,6 +59,7 @@ export default function About() {
               alt="Paulina Milá - Sobre mí"
               fill
               style={{ objectFit: 'cover' }}
+              sizes="(max-width: 768px) 100vw, 30vw"
             />
             {/* Overlay tag */}
             <div style={{
