@@ -1,100 +1,135 @@
-'use client';
+'use client'
+import { useState, useEffect } from 'react'
 
-import React, { useState } from 'react';
+const links = [
+  { label: 'Inicio',    href: '#inicio' },
+  { label: 'Sobre mí', href: '#sobre-mi' },
+  { label: 'Música',   href: '#galeria' },
+  { label: 'Eventos',  href: '#eventos' },
+  { label: 'Contacto', href: '#contacto' },
+]
 
 export default function Navbar() {
-  const [openMenu, setOpenMenu] = useState<string | null>(null);
-  const [isBtnHovered, setIsBtnHovered] = useState(false);
+  const [scrolled, setScrolled] = useState(false)
+  const [open, setOpen]         = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 60)
+    window.addEventListener('scroll', onScroll)
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  const close = () => setOpen(false)
 
   return (
     <nav style={{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      width: '100%',
-      height: '90px',
-      backgroundColor: '#ffffff',
-      borderBottom: '1px solid #FFD1DC',
-      zIndex: 1000,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      padding: '0 24px',
-      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
+      position: 'fixed', top: 0, left: 0, width: '100%', zIndex: 1000,
+      padding: '18px 32px',
+      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+      background: scrolled ? 'rgba(10,10,10,0.95)' : 'transparent',
+      backdropFilter: scrolled ? 'blur(12px)' : 'none',
+      borderBottom: scrolled ? '1px solid rgba(255,20,147,0.15)' : 'none',
+      transition: 'all 0.4s ease',
     }}>
+      {/* Logo */}
+      <a href="#inicio" style={{
+        fontFamily: 'var(--font-display)',
+        fontSize: 'clamp(1.2rem, 2.5vw, 1.5rem)',
+        fontWeight: 700,
+        color: 'var(--white)',
+        letterSpacing: '0.04em',
+      }}>
+        Paulina <span style={{ color: 'var(--pink)' }}>Milá</span>
+      </a>
+
+      {/* Desktop links */}
+      <ul style={{
+        display: 'flex', gap: 36, listStyle: 'none',
+        alignItems: 'center',
+      }} className="nav-desktop">
+        {links.map(l => (
+          <li key={l.href}>
+            <a href={l.href} style={{
+              fontSize: '0.85rem', fontWeight: 500, letterSpacing: '0.1em',
+              textTransform: 'uppercase', color: 'var(--gray-light)',
+              transition: 'color 0.3s',
+            }}
+              onMouseEnter={e => (e.currentTarget.style.color = 'var(--pink)')}
+              onMouseLeave={e => (e.currentTarget.style.color = 'var(--gray-light)')}
+            >{l.label}</a>
+          </li>
+        ))}
+        <li>
+          <a href="https://open.spotify.com/artist/1FDZt1SIbSNHkDimoKd1KH?si=CUAeNfE_TKqf-QDf6mOFRQ"
+            target="_blank" rel="noopener noreferrer"
+            style={{
+              padding: '10px 22px', borderRadius: 50,
+              background: 'var(--pink)', color: '#fff',
+              fontSize: '0.8rem', fontWeight: 600, letterSpacing: '0.08em',
+              textTransform: 'uppercase', transition: 'transform 0.3s, box-shadow 0.3s',
+              display: 'inline-block',
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.transform = 'scale(1.05)'
+              e.currentTarget.style.boxShadow = '0 0 24px rgba(255,20,147,0.5)'
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.transform = 'scale(1)'
+              e.currentTarget.style.boxShadow = 'none'
+            }}
+          >▶ Escuchar</a>
+        </li>
+      </ul>
+
+      {/* Burger */}
+      <button onClick={() => setOpen(!open)} aria-label="Menú"
+        style={{ display: 'none', flexDirection: 'column', gap: 5 }}
+        className="nav-burger">
+        {[0,1,2].map(i => (
+          <span key={i} style={{
+            display: 'block', width: 26, height: 2,
+            background: 'var(--white)', borderRadius: 2,
+            transition: 'all 0.3s',
+            transform: open
+              ? i === 0 ? 'rotate(45deg) translate(5px,5px)'
+              : i === 2 ? 'rotate(-45deg) translate(5px,-5px)'
+              : 'scaleX(0)'
+              : 'none',
+          }} />
+        ))}
+      </button>
+
+      {/* Mobile menu */}
+      {open && (
+        <div style={{
+          position: 'fixed', inset: 0, top: 68,
+          background: 'rgba(10,10,10,0.98)', backdropFilter: 'blur(20px)',
+          display: 'flex', flexDirection: 'column', alignItems: 'center',
+          justifyContent: 'center', gap: 36, zIndex: 999,
+          animation: 'fadeIn 0.3s ease',
+        }}>
+          {links.map(l => (
+            <a key={l.href} href={l.href} onClick={close} style={{
+              fontSize: '1.6rem', fontFamily: 'var(--font-display)',
+              color: 'var(--white)', fontWeight: 700,
+            }}>{l.label}</a>
+          ))}
+          <a href="https://open.spotify.com/artist/1FDZt1SIbSNHkDimoKd1KH?si=CUAeNfE_TKqf-QDf6mOFRQ"
+            target="_blank" rel="noopener noreferrer" onClick={close}
+            style={{
+              padding: '14px 36px', borderRadius: 50,
+              background: 'var(--pink)', color: '#fff',
+              fontSize: '1rem', fontWeight: 700,
+            }}>▶ Escuchar en Spotify</a>
+        </div>
+      )}
+
       <style>{`
-        .nav-links {
-          display: none;
-        }
-        @media (min-width: 1024px) {
-          .nav-links {
-            display: flex;
-          }
+        @media (max-width: 768px) {
+          .nav-desktop { display: none !important; }
+          .nav-burger   { display: flex !important; }
         }
       `}</style>
-
-      {/* LOGO */}
-      <a href="#" style={{ textDecoration: 'none', color: '#1A2639', fontSize: '20px', fontWeight: 900, letterSpacing: '1px', textTransform: 'uppercase' }}>
-        SINGER<span style={{ color: '#FF1493' }}>X</span> MILÁ
-      </a>
-
-      {/* MENÚ CENTRAL (SÓLO VISIBLE EN ESCRITORIO) */}
-      <div className="nav-links" style={{ gap: '35px', alignItems: 'center', fontSize: '13px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px' }}>
-        <div style={{ position: 'relative', height: '90px', display: 'flex', alignItems: 'center' }} onMouseEnter={() => setOpenMenu('home')} onMouseLeave={() => setOpenMenu(null)}>
-          <span style={{ color: openMenu === 'home' ? '#FF1493' : '#1A2639', cursor: 'pointer', transition: 'color 0.3s' }}>HOME ▾</span>
-          {openMenu === 'home' && (
-            <div style={{ position: 'absolute', top: '85px', left: 0, backgroundColor: '#ffffff', border: '1px solid #FFD1DC', borderRadius: '8px', padding: '15px', display: 'flex', flexDirection: 'column', gap: '10px', width: '220px', boxShadow: '0px 12px 30px rgba(255,182,193,0.25)' }}>
-              <a href="#" style={{ textDecoration: 'none', color: '#1A2639', fontSize: '12px' }}>HOME (PREDETERMINADO)</a>
-              <a href="#" style={{ textDecoration: 'none', color: '#555', fontSize: '12px' }}>HOME (FONDO DE VÍDEO)</a>
-            </div>
-          )}
-        </div>
-
-        <div style={{ position: 'relative', height: '90px', display: 'flex', alignItems: 'center' }} onMouseEnter={() => setOpenMenu('pages')} onMouseLeave={() => setOpenMenu(null)}>
-          <span style={{ color: openMenu === 'pages' ? '#FF1493' : '#1A2639', cursor: 'pointer', transition: 'color 0.3s' }}>PAGES ▾</span>
-          {openMenu === 'pages' && (
-            <div style={{ position: 'absolute', top: '85px', left: '-150px', backgroundColor: '#ffffff', border: '1px solid #FFD1DC', borderRadius: '12px', padding: '25px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px', width: '450px', boxShadow: '0px 15px 35px rgba(255,182,193,0.3)' }}>
-              <div>
-                <h4 style={{ color: '#FF1493', margin: '0 0 10px 0', fontSize: '11px', fontWeight: 800 }}>SECCIONES</h4>
-                <a href="#sobre-mi" style={{ display: 'block', textDecoration: 'none', color: '#555', padding: '6px 0', fontSize: '12px', fontWeight: 500 }}>SOBRE MÍ</a>
-                <a href="#galeria" style={{ display: 'block', textDecoration: 'none', color: '#555', padding: '6px 0', fontSize: '12px', fontWeight: 500 }}>GALERÍA</a>
-              </div>
-              <div>
-                <h4 style={{ color: '#87CEEB', margin: '0 0 10px 0', fontSize: '11px', fontWeight: 800 }}>MEDIA</h4>
-                <a href="#videos" style={{ display: 'block', textDecoration: 'none', color: '#555', padding: '6px 0', fontSize: '12px', fontWeight: 500 }}>VÍDEOS</a>
-                <a href="#contacto" style={{ display: 'block', textDecoration: 'none', color: '#555', padding: '6px 0', fontSize: '12px', fontWeight: 500 }}>CONTACTO</a>
-              </div>
-            </div>
-          )}
-        </div>
-
-        <a href="#galeria" style={{ textDecoration: 'none', color: '#1A2639' }}>ALBUM</a>
-        <a href="#eventos" style={{ textDecoration: 'none', color: '#1A2639' }}>EVENTS</a>
-        <a href="#contacto" style={{ textDecoration: 'none', color: '#1A2639' }}>CONTACT US</a>
-      </div>
-
-      {/* BOTÓN LISTEN NOW */}
-      <a 
-        href="#videos" 
-        onMouseEnter={() => setIsBtnHovered(true)}
-        onMouseLeave={() => setIsBtnHovered(false)}
-        style={{
-          textDecoration: 'none',
-          backgroundColor: isBtnHovered ? '#FF1493' : '#1A2639',
-          color: '#ffffff',
-          padding: '10px 20px',
-          borderRadius: '50px',
-          fontSize: '11px',
-          fontWeight: 700,
-          letterSpacing: '1px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          transition: 'all 0.3s ease'
-        }}
-      >
-        LISTEN NOW <span style={{ backgroundColor: isBtnHovered ? '#1A2639' : '#FF1493', width: '18px', height: '18px', borderRadius: '50%', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: '8px' }}>▶</span>
-      </a>
     </nav>
-  );
+  )
 }
